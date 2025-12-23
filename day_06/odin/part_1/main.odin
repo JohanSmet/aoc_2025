@@ -32,16 +32,16 @@ main :: proc() {
 	next_index := 0
 	total: i64 = 0
 
-	for index := 0; index < len(lines[op_line]); index = next_index {
+	outer_loop: for index := 0; index < len(lines[op_line]); index = next_index {
 
 		for next_index = index + 1; next_index < len(lines[op_line]) && lines[op_line][next_index] == ' '; next_index += 1 {}
 
 		operator := lines[op_line][index]
 
-		line_result, _ := strconv.parse_i64(cut_string(lines[0], index, next_index < len(lines[op_line]) ? next_index : index))
+		line_result := strconv.parse_i64(cut_string(lines[0], index, next_index < len(lines[op_line]) ? next_index : index)) or_continue
 
 		for number_line := 1; number_line < len(lines) - 1; number_line += 1 {
-			operand, _ := strconv.parse_i64(cut_string(lines[number_line], index, next_index < len(lines[op_line]) ? next_index : index))
+			operand := strconv.parse_i64(cut_string(lines[number_line], index, next_index < len(lines[op_line]) ? next_index : index)) or_continue outer_loop
 
 			if operator == '+' {
 				line_result += operand

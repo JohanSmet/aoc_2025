@@ -18,18 +18,18 @@ main :: proc() {
 
 	count_fit := 0
 
-	for line in strings.split_lines_iterator(&it) {
+	outer_loop: for line in strings.split_lines_iterator(&it) {
 		if !strings.contains(line, "x") { continue }
 
 		parts := strings.split_multi(line, { " ", "x", ": " })
 		assert(len(parts) == 8)
 
-		grid_w, _ := strconv.parse_int(parts[0])
-		grid_h, _ := strconv.parse_int(parts[1])
+		grid_w := strconv.parse_int(parts[0]) or_continue
+		grid_h := strconv.parse_int(parts[1]) or_continue
 
 		total_gifts := 0
 		for i in 0..<6 {
-			gifts, _ := strconv.parse_int(parts[i+2])
+			gifts := strconv.parse_int(parts[i+2]) or_continue outer_loop
 			total_gifts += gifts
 		}
 

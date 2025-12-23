@@ -6,8 +6,9 @@ import "core:strings"
 import "core:strconv"
 
 validate_id :: proc(id : i64) -> bool {
+	buf : [32]byte
 
-	str_id := fmt.aprint(id)
+	str_id := fmt.bprint(buf[:], id)
 	str_len := len (str_id)
 
 	if str_len % 2 == 1 {

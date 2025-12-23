@@ -4,7 +4,6 @@ import "core:fmt"
 import "core:os"
 import "core:strings"
 import "core:strconv"
-import "core:slice"
 import "core:math"
 
 Vec2 :: [2]i64
@@ -29,8 +28,8 @@ main :: proc() {
 		tokens := strings.split(line, ",")
 
 		v : Vec2
-		v[0], _ = strconv.parse_i64(tokens[0])
-		v[1], _ = strconv.parse_i64(tokens[1])
+		v[0] = strconv.parse_i64(tokens[0]) or_continue
+		v[1] = strconv.parse_i64(tokens[1]) or_continue
 
 		append(&points, v)
 	}

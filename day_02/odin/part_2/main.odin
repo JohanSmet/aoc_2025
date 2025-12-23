@@ -7,7 +7,8 @@ import "core:strconv"
 
 validate_id :: proc(id : i64) -> bool {
 
-	str_id := fmt.aprint(id)
+	buf : [32]byte
+	str_id := fmt.bprint(buf[:], id)
 	str_len := len (str_id)
 
 	for count := 1; count <= str_len / 2; count += 1 {
@@ -31,17 +32,11 @@ validate_id :: proc(id : i64) -> bool {
 	return true
 }
 
-process_range :: proc(range: string) -> i64 {
+process_range :: proc(range: string) -> (total : i64, ok : bool) {
 	limits := strings.split(range, "-")
 
-	lower_limit, ok_l := strconv.parse_i64(limits[0])
-	upper_limit, ok_u := strconv.parse_i64(limits[1])
-
-	if !ok_l || !ok_u {
-		return 0
-	}
-
-	total : i64 = 0
+	lower_limit := strconv.parse_i64(limits[0]) or_return
+	upper_limit := strconv.parse_i64(limits[1]) or_return
 
 	for id := lower_limit; id <= upper_limit; id += 1 {
 		if !validate_id(id) {
@@ -49,7 +44,7 @@ process_range :: proc(range: string) -> i64 {
 		}
 	}
 
-	return total
+	return total, true
 }
 
 main :: proc() {
@@ -66,7 +61,7 @@ main :: proc() {
 	it := string(data)
 	for line in strings.split_lines_iterator(&it) {
 		for range in strings.split(line, ",") {
-			total += process_range(range)
+			total += process_range(range) or_continue
 		}
 	}
 

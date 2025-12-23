@@ -3,7 +3,6 @@ package main
 import "core:fmt"
 import "core:os"
 import "core:strings"
-import "core:strconv"
 import "core:math"
 
 sample_string :: proc(line: string, idx: int) -> u8 {

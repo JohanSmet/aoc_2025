@@ -34,8 +34,8 @@ main :: proc() {
 
 		tokens := strings.split(line, "-")
 		new_range : Range
-		new_range.min, _ = strconv.parse_i64(tokens[0])
-		new_range.max, _ = strconv.parse_i64(tokens[1])
+		new_range.min = strconv.parse_i64(tokens[0]) or_continue
+		new_range.max = strconv.parse_i64(tokens[1]) or_continue
 
 		overlaps := false
 		for range, index in ranges {

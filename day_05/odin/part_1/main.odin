@@ -33,11 +33,11 @@ main :: proc() {
 		if reading_ranges {
 			tokens := strings.split(line, "-")
 			r : Range
-			r.min, _ = strconv.parse_i64(tokens[0])
-			r.max, _ = strconv.parse_i64(tokens[1])
+			r.min = strconv.parse_i64(tokens[0]) or_continue
+			r.max = strconv.parse_i64(tokens[1]) or_continue
 			append(&ranges, r)
 		} else {
-			id, _ := strconv.parse_i64(line)
+			id := strconv.parse_i64(line) or_continue
 			append(&ingredients, id)
 		}
 	}

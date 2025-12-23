@@ -5,7 +5,6 @@ import "core:os"
 import "core:strings"
 import "core:strconv"
 import "core:slice"
-import "core:math"
 
 Vec3 :: [3]i64
 
@@ -98,9 +97,9 @@ main :: proc() {
 		tokens := strings.split(line, ",")
 
 		v : Vec3
-		v[0], _ = strconv.parse_i64(tokens[0])
-		v[1], _ = strconv.parse_i64(tokens[1])
-		v[2], _ = strconv.parse_i64(tokens[2])
+		v[0] = strconv.parse_i64(tokens[0]) or_continue
+		v[1] = strconv.parse_i64(tokens[1]) or_continue
+		v[2] = strconv.parse_i64(tokens[2]) or_continue
 
 		append(&g_points, v)
 	}

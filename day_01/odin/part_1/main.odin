@@ -5,6 +5,9 @@ import "core:os"
 import "core:strings"
 import "core:strconv"
 
+DIAL_INITIAL_VALUE :: 50
+DIAL_RANGE :: 100
+
 main :: proc() {
 
 	data, ok := os.read_entire_file_from_handle(os.stdin, context.allocator)
@@ -14,25 +17,24 @@ main :: proc() {
 	}
 	defer delete(data, context.allocator)
 
-	dial := 50
+	dial_value := DIAL_INITIAL_VALUE
 	count := 0
 
 	it := string(data)
 	for line in strings.split_lines_iterator(&it) {
 		dir := line[:1]
-		n, ok := strconv.parse_int(line[1:])
 
-		if ok {
-			if dir == "L" {
-				dial -= n
-			} else {
-				dial += n
-			}
+		amount := strconv.parse_int(line[1:]) or_else 0
 
-			dial = (dial + 100) % 100
-			if dial == 0 {
-				count += 1
-			}
+		if dir == "L" {
+			dial_value -= amount
+		} else {
+			dial_value += amount
+		}
+
+		dial_value = (dial_value + DIAL_RANGE) % DIAL_RANGE
+		if dial_value == 0 {
+			count += 1
 		}
 	}
 

@@ -33,7 +33,7 @@ parse_button_schematic :: proc(schematic_str: string, num_buttons: int) -> Light
     content := strings.trim_prefix(strings.trim_suffix(schematic_str, ")"), "(")
 
     for light_index_str in strings.split(content, ",") {
-        light_index_val, _ := strconv.parse_int(strings.trim_space(light_index_str))
+        light_index_val := strconv.parse_int(strings.trim_space(light_index_str)) or_continue
         buttons[light_index_val] = true
     }
 
@@ -47,7 +47,7 @@ parse_joltage_requirements :: proc(joltage_str: string) -> []i32 {
     joltage_values := make([]i32, len(parts))
 
     for i := 0; i < len(parts); i += 1 {
-        val, _ := strconv.parse_int(strings.trim_space(parts[i]))
+        val := strconv.parse_int(strings.trim_space(parts[i])) or_continue
         joltage_values[i] = i32(val)
     }
 
